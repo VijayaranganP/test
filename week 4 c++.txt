@@ -1,0 +1,196 @@
+#include "mainwindow.h"
+
+#include <QApplication>
+
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+}
+......................................
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QDebug>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    QMessageBox::information(this,"BHARATH K 212218104029","this is information box");
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{   QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this,"BHARATH K","do like this studies?",QMessageBox::Yes|QMessageBox::No);
+    if(reply == QMessageBox::Yes){
+        QMessageBox::information(this,"Yes Clicked","oh dear");
+    }
+    else
+    {
+        QMessageBox::information(this,"No Clicked","good");
+
+    }
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this,"Custom Message","This is a Custom message",QMessageBox::Yes|QMessageBox::YesToAll|QMessageBox::No|QMessageBox::NoToAll);
+    if(reply == QMessageBox::Yes){
+        qDebug()<<"nothing to show";
+    }
+    else if(reply == QMessageBox::YesToAll)
+    {
+        QMessageBox::information(this,"Message Display","display the message with warming as yes to all");
+
+    }
+    else if(reply == QMessageBox::No)
+    {
+        qDebug()<<"nothing to show";
+    }
+    else  if(reply == QMessageBox::NoToAll)
+    {
+        QMessageBox::information(this,"Message Display","display the message with warming as no to all");
+
+    }
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QMessageBox::warning(this,"Warning Message","This is a warning box");
+}
+.........................................
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QMessageBox>
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
+private:
+    Ui::MainWindow *ui;
+};
+#endif // MAINWINDOW_H
+ 62  mainwindow.ui 
+@@ -0,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>310</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>171</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Information</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>Question</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="text">
+        <string>Warning</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+.............................
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += c++11
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+SOURCES += \
+    main.cpp \
+    mainwindow.cpp
+
+HEADERS += \
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
